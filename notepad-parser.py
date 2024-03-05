@@ -13,8 +13,8 @@ for path in list_of_bin_files:
     if path.endswith('.0.bin') or path.endswith('.1.bin'):
         continue
     print("-"*80) #to print file names instead of file path -> use os.path.basename
-    filename = os.path.basename(path)
-    print(colored("Binary Cache Filename=","light_blue"),colored(filename,"green"))
+    cache_filename = os.path.basename(path)
+    print(colored("Binary Cache Filename=","light_blue"),colored(cache_filename,"green"))
     with open(path, 'rb') as file_pointer:
         contents = file_pointer.read()
         magic_bytes = contents[0:3] #NP.. -> Notepad Cache Header
