@@ -1,6 +1,7 @@
 import os
 import codecs
 import glob
+from termcolor import colored
 
 app_data_dir = os.environ['LOCALAPPDATA'] #Variable stores the Path to \AppData\Local (Unique to each machine/user)
 directory_relative = r"Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\LocalState\TabState" #don't add \Packages otherwise os.join will assume \Packages to be an absolute path ("r" signifies raw path) 
@@ -16,13 +17,8 @@ for path in list_of_bin_files:
     print("-"*80)
     #to print file names instead of file path -> use os.path.basename
     filename = os.path.basename(path)
-    print("Binary Cache",f"{filename=}")
-    #print raw contents
-    '''
-    with open(path, 'rb') as file_pointer:
-        contents = file_pointer.read()
-        print(contents)
-    '''
+    print(colored("Binary Cache Filename ->","light_blue"),colored(filename,"light_green"))
+
     with open(path, 'rb') as file_pointer:
         contents = file_pointer.read()
         magic_bytes = contents[0:3] #NP.. -> Notepad Cache Header
@@ -30,9 +26,8 @@ for path in list_of_bin_files:
         #print(f'{magic_bytes=}')
         #print(f'{is_saved_file=}')
 
-
         if is_saved_file:   #byte set to 01
-            print("SAVED FILE")
+            print(colored("Saved File",'green'))
             #length of filename = contents on the 4th byte
             length_of_filename = contents[4]
             filename_ending = 5+length_of_filename*2
@@ -54,12 +49,12 @@ for path in list_of_bin_files:
             original_file_contents = contents[i:-5]
             lines =  original_file_contents.decode('utf-16le')
             lines = lines.splitlines()
-            print("#"*10,"START OF FILE CONTENT","#"*10)
+            print("->","START OF FILE CONTENT")
             for line in lines:
-                print(line)
-            print("#"*10,"END OF FILE CONTENT","#"*10)
+                print(colored(line,"green"))
+            print("->","EOF")
         else:
-            print("Not Saved File")
+            print(colored("Not Saved File",'red'))
             delimiter_start = contents[0:].index(b"\x00\x01")
             delimiter_end = contents[0:].index(b"\x01\x00\x00\x00")
             print(f"{delimiter_start=}","  ",f"{delimiter_end=}")
@@ -72,9 +67,9 @@ for path in list_of_bin_files:
             original_file_contents = contents[i:-5]
             lines =  original_file_contents.decode('utf-16le')
             lines = lines.splitlines()
-            print("#"*10,"START OF FILE CONTENT","#"*10)
+            print("->","START OF FILE CONTENT")
             for line in lines:
-                print(line)
-            print("#"*10,"END OF FILE CONTENT","#"*10)
+                print(colored(line,"green"))
+            print("->","EOF")
 
         print("-"*80)
