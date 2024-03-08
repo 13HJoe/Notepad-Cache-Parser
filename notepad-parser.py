@@ -7,12 +7,14 @@ directory_relative = r"Packages\Microsoft.WindowsNotepad_8wekyb3d8bbwe\LocalStat
 Full_path = os.path.join(app_data_dir, directory_relative) 
 print(colored("Application Cache Full Path=","blue"),colored(Full_path,"green"))
 #to get all bin files in required directory
-list_of_bin_files = glob.glob(os.path.join(Full_path,'*.bin'))
+list_of_bin_files = glob.glob(os.path.join(Full_path,'*.bin')) #glob.glob allows for search for pathnames matching a specfied pattern
 
 for path in list_of_bin_files:
-    if path.endswith('.0.bin') or path.endswith('.1.bin'):
+    if path.endswith('.0.bin') or path.endswith('.1.bin'): #unstable; not of concern
         continue
-    print("-"*80) #to print file names instead of file path -> use os.path.basename
+    print("-"*80) 
+    
+    #to print file names instead of file path -> use os.path.basename
     cache_filename = os.path.basename(path)
     print(colored("Binary Cache Filename=","light_blue"),colored(cache_filename,"green"))
     with open(path, 'rb') as file_pointer:
