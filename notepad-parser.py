@@ -79,11 +79,11 @@ for path in target_paths:
     lines = original_file_content.splitlines()
 
     
-    print(" " * ((terminal_width//2)-3), end="")
-    print(colored("[CONTENT]","blue"), end = "")
-    print(" " * ((terminal_width//2)-4), end="")
+    print(colored("[CONTENT]","blue"))
     for line in lines:
-        print(line)
-    print(colored("EOF","red"))
+        print(colored(line,"light_green"))
+    
+    print(colored("[EOF]","red"))
     print("-" * terminal_width)
     fobj.close() 
+    
