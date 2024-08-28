@@ -17,13 +17,13 @@
     - Between both these delimiters, there is a data marker that is half the length of the text data marker.
         - The text data marker is present at after the ".txt" extension and right before the first byte of text data.
     - **note** - the length of the marker varies from one bin file to another, it might differ by file size.
-        - To find index of starting delimiter:
-          `cache_data[0:].index("\x00\x01")`
-        - To find index of ending delimiter:
+        - To find index of starting delimiter:<br>
+          ```cache_data[0:].index("\x00\x01")```
+        - To find index of ending delimiter:<br>
           `cache_data[0:].index("\x01\x00\x00\x00")`
-        - To get file marker contents:
+        - To get file marker contents:<br>
           `cache_data[startDelimit+2:endDelimit]`
-        - To get the starting index of the actual file data:
+        - To get the starting index of the actual file data:<br>
           `cache_data[endDelimit+4+len(fileMarker)]`
 
    ![image](https://github.com/user-attachments/assets/71d57911-e38d-4727-b23f-4103a31acb65)
