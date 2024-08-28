@@ -57,8 +57,11 @@ for path in target_paths:
         file_name = "\"" + file_name + "\""
         print(colored("[FILENAME]: ","blue"),colored(file_name, "green"))
 
+        # find location of select bytes after the filename
         delimiter_start = cache_data[filename_end_marker:].index(b"\x00\x01")
         delimiter_end = cache_data[filename_end_marker:].index(b"\x01\x00\x00\x00")
+        # adjust the found index which is relative to nd of filename 
+        # to be relative to the start of the file 
         delimiter_start += filename_end_marker
         delimiter_end += filename_end_marker
     
@@ -69,12 +72,17 @@ for path in target_paths:
     
 
     # print(f"{delimiter_start=}"," ",f"{delimiter_end=}")
+
+    # to get the data marker that is used to add fixed bytes after the extension
+    # and just before the first byte of the actual data
     orig_file_data_marker = cache_data[delimiter_start+2:delimiter_end]
     orig_file_data_marker = orig_file_data_marker[:len(orig_file_data_marker)//2]
     
+    # get start index of original file data
     i = delimiter_end + 4 + len(orig_file_data_marker)
+    # remove trailing bytes
     j = len(cache_data)-5
-    original_file_content = cache_data[i:-5]
+    original_file_content = cache_data[i:j]
     original_file_content = original_file_content.decode('utf-16le')
     lines = original_file_content.splitlines()
 
@@ -86,4 +94,3 @@ for path in target_paths:
     print(colored("[EOF]","red"))
     print("-" * terminal_width)
     fobj.close() 
-    
